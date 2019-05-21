@@ -11,11 +11,20 @@ typedef struct {
     unsigned year;
 } Date;
 
+const char* correspondance_Mois[12] = {"JAN","FEB","MAR","APR","MAY","JUN","AUG","SEP","OCT","NOV","DEC"};
+
+//printDate
+//nextDay
+//prevDay
+//incrementAllDay
+//sortDates
+
 //display single date
 void printDate(Date date)
 {
-    printf("%02d/%02d/%d\n",date.day,date.month+1,date.year);
+    printf("%02d/%s/%d\n",date.day,correspondance_Mois[date.month],date.year);
 }
+
 
 //display array of dates
 void printDates(Date* date,int size)
@@ -25,7 +34,6 @@ void printDates(Date* date,int size)
         printDate(*(date+i));
     }
 }
-
 int main() {
 
     Date tab[] = {{1,  JAN, 2013},

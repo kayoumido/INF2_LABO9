@@ -1,3 +1,16 @@
+/*
+-----------------------------------------------------------------------------------
+Laboratoire : Labo09 - Structure et Pointeurs
+Fichier     : main.c
+Auteur(s)   : Emmanuel Janssens, Doran Kayoumi
+Date        : 22.05.2019
+But         : Mettre en place un programme simple afin de mettre en pratique l'utilisation
+              des pointeurs et structs
+Remarque(s) : -
+Compilateur : gcc <8.3.0>
+-----------------------------------------------------------------------------------
+ */
+
 #include <stdio.h>
 #include <stdbool.h>
 

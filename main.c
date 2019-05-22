@@ -61,6 +61,13 @@ bool plusGrand(Date lhs,Date rhs);
  */
 void trier(Date* date,int size,bool (*fct)(Date,Date));
 
+/**
+ * @brief echange deux elements
+ * 
+ * @param lhs 
+ * @param rhs 
+ */
+void swap(Date* lhs, Date*rhs);
 
 int main() {
 
@@ -84,6 +91,14 @@ int main() {
 
 
     return 0;
+}
+
+
+void swap(Date* lhs, Date*rhs)
+{
+    Date temp = *lhs;
+    *lhs=*rhs;
+    *rhs=temp;
 }
 //retourne la date la plus petite
 bool plusPetit(Date lhs,Date rhs)

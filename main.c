@@ -85,6 +85,43 @@ int main() {
 
     return 0;
 }
+//retourne la date la plus petite
+bool plusPetit(Date lhs,Date rhs)
+{
+    if(lhs.year == rhs.year&& lhs.month == rhs.month  &&  lhs.day == rhs.day)
+        return false;
+    
+    if(lhs.year < rhs.year || lhs.month < rhs.month || lhs.day < rhs.day)
+        return true;
+    
+    return false;
+}
+
+//retourne la date la plus grande
+bool plusGrand(Date lhs,Date rhs)
+{
+    return !plusPetit(lhs,rhs);
+}
+
+
+
+//POINTEUR SUR FONCTION 
+void trier(Date* date,int size,bool (*fct)(Date,Date))
+{    
+    int to_swap;
+    for (int i = 0; i < size - 1; i++)
+    {
+        to_swap = i;
+        for (int j = i + 1; j < size; j++)
+        {
+            if (fct(date[j], date[to_swap]))
+            {
+                to_swap = j;
+            }
+        }
+        swap(&date[to_swap], &date[i]);
+    }
+}
 
 unsigned getMonthLength(Mois month, unsigned year) {
     unsigned totalDaysInMonth;

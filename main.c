@@ -20,54 +20,87 @@ typedef struct {
     unsigned year;
 } Date;
 
-
+/**
+ * @brief Display a date
+ *
+ * @param date
+ */
 void displayDate(Date *date);
 
+/**
+ * @brief Increase a date
+ *
+ * @param date
+ */
 void nextDay(Date *date);
 
+/**
+ * @brief Decrease a date
+ *
+ * @param date
+ */
 void prevDay(Date *date);
 
+/**
+ * @brief Loop through a collection of dates
+ *
+ * @param dates
+ * @param size
+ * @param action function that accepts the pointer of a Date as an argument and returns nothing
+ */
 void loopDates(Date *dates, size_t size, void (*action)(Date *));
 
+/**
+ * @brief Get the number of days in a month
+ *
+ * @param month
+ * @param year
+ * @return the number of days of the month
+ */
 unsigned getMonthLength(Mois month, unsigned year);
 
+/**
+ * @brief Check if a given year is leap
+ *
+ * @param year to check
+ * @return true if it's a leap year otherwise false
+ */
 bool isLeapYear(unsigned year);
 
 /**
- * @brief verifie si une date est plus petite qu'une autre
+ * @brief Check if lhs date is lower than the rhs one
+ *
  * @param lhs 
  * @param rhs 
- * @return true si lhs < rhs
- * @return false si lhs == rhs ou lhs > rhs
+ * @return true if lhs < rhs otherwise false
  */
-bool plusPetit(Date lhs, Date rhs);
+bool lowerThan(Date lhs, Date rhs);
 
 /**
- * @brief verifie si une date est plus grande qu'une autre
+ * @brief Check if lhs date is greater than the rhs one
  * 
  * @param lhs 
  * @param rhs 
- * @return true si lhs > rhs
- * @return false si lhs == rhs ou lhs < rhs
+ * @return true if lhs > rhs otherwise false
  */
-bool plusGrand(Date lhs,Date rhs);
+bool greaterThan(Date lhs, Date rhs);
 
 /**
- * @brief effectue un tri par sélection sur un tableau de date
+ * @brief Perform a selection sort on a collection of Dates
  * 
- * @param date pointeur vers la collection de date
- * @param size taille du tableau de date
- * @param fct pointeur vers fonction qui permet d'exécuter les comparaisons
+ * @param date pointer to a collection of Dates
+ * @param size of the collection
+ * @param comp Binary function that accepts two elements in the as arguments, and reeturns a bool
  */
-void trier(Date* date,int size,bool (*fct)(Date,Date));
+void sort(Date *date, int size, bool (*comp)(Date, Date));
 
 /**
- * @brief echange deux elements
+ * @brief Swap two dates
  * 
  * @param lhs 
  * @param rhs 
  */
-void swap(Date* lhs, Date*rhs);
+void swap(Date *lhs, Date *rhs);
 
 int main() {
 
@@ -83,6 +116,7 @@ int main() {
 
     printf("\n");
     loopDates(tab, 3, prevDay);
+    sort(tab, 3, greaterThan);
     loopDates(tab, 3, displayDate);
 
     printf("\n");
@@ -93,44 +127,38 @@ int main() {
     return 0;
 }
 
-
-void swap(Date* lhs, Date*rhs)
-{
+void swap(Date *lhs, Date *rhs) {
     Date temp = *lhs;
-    *lhs=*rhs;
-    *rhs=temp;
+    *lhs = *rhs;
+    *rhs = temp;
 }
-//retourne la date la plus petite
-bool plusPetit(Date lhs,Date rhs)
-{
-    if(lhs.year == rhs.year&& lhs.month == rhs.month  &&  lhs.day == rhs.day)
-        return false;
-    
-    if(lhs.year < rhs.year || lhs.month < rhs.month || lhs.day < rhs.day)
-        return true;
-    
+
+bool lowerThan(Date lhs, Date rhs) {
+
+    if (lhs.year < rhs.year) return true;
+
+    if (lhs.year == rhs.year) {
+
+        if (lhs.month < rhs.month) return true;
+
+        if (lhs.month == rhs.month) {
+            if (lhs.day < rhs.day) return true;
+        }
+    }
+
     return false;
 }
 
-//retourne la date la plus grande
-bool plusGrand(Date lhs,Date rhs)
-{
-    return !plusPetit(lhs,rhs);
+bool greaterThan(Date lhs, Date rhs) {
+    return lowerThan(rhs, lhs);
 }
 
-
-
-//POINTEUR SUR FONCTION 
-void trier(Date* date,int size,bool (*fct)(Date,Date))
-{    
+void sort(Date *date, int size, bool (*comp)(Date, Date)) {
     int to_swap;
-    for (int i = 0; i < size - 1; i++)
-    {
+    for (int i = 0; i < size - 1; i++) {
         to_swap = i;
-        for (int j = i + 1; j < size; j++)
-        {
-            if (fct(date[j], date[to_swap]))
-            {
+        for (int j = i + 1; j < size; j++) {
+            if (comp(date[j], date[to_swap])) {
                 to_swap = j;
             }
         }

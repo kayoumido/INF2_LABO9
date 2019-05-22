@@ -33,6 +33,34 @@ unsigned getMonthLength(Mois month, unsigned year);
 
 bool isLeapYear(unsigned year);
 
+/**
+ * @brief verifie si une date est plus petite qu'une autre
+ * @param lhs 
+ * @param rhs 
+ * @return true si lhs < rhs
+ * @return false si lhs == rhs ou lhs > rhs
+ */
+bool plusPetit(Date lhs, Date rhs);
+
+/**
+ * @brief verifie si une date est plus grande qu'une autre
+ * 
+ * @param lhs 
+ * @param rhs 
+ * @return true si lhs > rhs
+ * @return false si lhs == rhs ou lhs < rhs
+ */
+bool plusGrand(Date lhs,Date rhs);
+
+/**
+ * @brief effectue un tri par sélection sur un tableau de date
+ * 
+ * @param date pointeur vers la collection de date
+ * @param size taille du tableau de date
+ * @param fct pointeur vers fonction qui permet d'exécuter les comparaisons
+ */
+void trier(Date* date,int size,bool (*fct)(Date,Date));
+
 
 int main() {
 

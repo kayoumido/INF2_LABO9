@@ -24,9 +24,6 @@ const char *MONTH_TEXT[12] = {
         "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
 };
 
-const Mois FISRT_MONTH = JAN;
-const Mois LAST_MONTH = DEC;
-
 typedef struct {
     unsigned day;
     Mois month;
@@ -119,22 +116,25 @@ int main() {
 
     Date tab[] = {{1,  JAN, 2013},
                   {21, MAY, 2019},
-                  {28, FEB, 2002}};
+                  {28, FEB, 2002},
+                  {1, MAR, 2000}};
 
-    loopDates(tab, 3, displayDate);
+    size_t size = 4;
 
-    printf("\n");
-    loopDates(tab, 3, nextDay);
-    loopDates(tab, 3, displayDate);
-
-    printf("\n");
-    loopDates(tab, 3, prevDay);
-    sort(tab, 3, greaterThan);
-    loopDates(tab, 3, displayDate);
+    loopDates(tab, size, displayDate);
 
     printf("\n");
-    loopDates(tab, 3, prevDay);
-    loopDates(tab, 3, displayDate);
+    loopDates(tab, size, nextDay);
+    loopDates(tab, size, displayDate);
+
+    printf("\n");
+    loopDates(tab, size, prevDay);
+    sort(tab, size, greaterThan);
+    loopDates(tab, size, displayDate);
+
+    printf("\n");
+    loopDates(tab, size, prevDay);
+    loopDates(tab, size, displayDate);
 
 
     return 0;
@@ -180,22 +180,26 @@ void sort(Date *date, int size, bool (*comp)(Date, Date)) {
 }
 
 unsigned getMonthLength(Mois month, unsigned year) {
-    unsigned totalDaysInMonth;
 
-    if (month == FEB) {
-        if (isLeapYear(year)) {
-            totalDaysInMonth = 29;
-        } else {
-            totalDaysInMonth = 28;
-        }
-    } else if ((((unsigned) month + 1) % 2 == 0 && month < JUL) ||
-               (((unsigned) month + 1) % 2 == 1 && month > JUL)) {
-        totalDaysInMonth = 30;
-    } else {
-        totalDaysInMonth = 31;
+    switch (month) {
+        case FEB:
+            return isLeapYear(year) ? 29 : 28;
+        case JAN:
+        case MAR:
+        case MAY:
+        case JUL:
+        case AUG:
+        case OCT:
+        case DEC:
+            return 31;
+        case APR:
+        case JUN:
+        case SEP:
+        case NOV:
+            return 30;
+        default:
+            break;
     }
-
-    return totalDaysInMonth;
 }
 
 bool isLeapYear(unsigned year) {
@@ -210,8 +214,8 @@ void nextDay(Date *date) {
 
         ++date->month;
 
-        if (date->month > LAST_MONTH) {
-            date->month = FISRT_MONTH;
+        if (date->month > DEC) {
+            date->month = JAN;
             ++date->year;
         }
     }
@@ -222,13 +226,14 @@ void prevDay(Date *date) {
 
     if (date->day == 0) {
         --date->month;
-        date->day = getMonthLength(date->month, date->year);
 
         // if the FIRST_MONTH was decreased, the value will loop back to the max value of an unsigned
-        if (date->month > LAST_MONTH) {
+        if (date->month > DEC) {
             --date->year;
-            date->month = LAST_MONTH;
+            date->month = JAN;
         }
+
+        date->day = getMonthLength(date->month, date->year);
     }
 }
 
